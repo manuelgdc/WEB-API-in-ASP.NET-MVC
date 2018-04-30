@@ -1,0 +1,67 @@
+﻿@model IEnumerable<MVC.Models.mvcEquipo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Manuel GDC - dotnet</h3>
+
+<p>
+    <a href="@Url.Action("AddOrEdit","Equipo")">Crear nuevo empleado</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpleadoID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Puesto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Localizacion)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpleadoID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Puesto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Localizacion)
+            </td>
+            <td>
+                <a href="@Url.Action("AddOrEdit", "Equipo", new { id = item.EmpleadoID})" class="btn btn-default"><i class="fa fa-pencil"></i>  Editar</a>
+                <a onclick="Delete(@item.EmpleadoID)" class="btn btn-default"><i class="fa fa-trash"></i> Borrar</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts{
+    <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]'
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
+
+        function Delete(id) {
+            alertify.confirm('Web Api CRUD Operations','¿Estás seguro de borrar este registro?',function(){
+                window.location.href  = '@Url.Action("Delete","Equipo")/'+id;
+            },null );
+        }
+    </script>
+}
